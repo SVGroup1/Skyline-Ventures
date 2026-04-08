@@ -3,97 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skyline Ventures Group — Internal Dashboard</title>
+<title>Skyline Ventures Group — Dashboard</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #f5f5f3; line-height: 1.5; }
-  .auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-  .auth-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 14px; padding: 40px 36px; width: 100%; max-width: 380px; text-align: center; }
-  .auth-logo { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-  .auth-logo span { color: #2563eb; }
-  .auth-sub { font-size: 13px; color: #888; margin-bottom: 28px; }
-  .auth-label { font-size: 11px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.04em; text-align: left; display: block; margin-bottom: 6px; }
-  .auth-input { width: 100%; padding: 10px 14px; font-size: 14px; font-family: inherit; border: 1px solid #ddd; border-radius: 8px; outline: none; margin-bottom: 14px; background: #fafafa; }
-  .auth-input:focus { border-color: #2563eb; background: #fff; }
-  .auth-btn { width: 100%; padding: 11px; background: #2563eb; color: #fff; font-size: 14px; font-weight: 600; font-family: inherit; border: none; border-radius: 8px; cursor: pointer; }
-  .auth-btn:hover { background: #1d4ed8; }
-  .auth-error { font-size: 12px; color: #e53e3e; margin-top: 10px; display: none; }
-  .app { display: none; min-height: 100vh; }
-  .topbar { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 0 28px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .topbar-logo { font-size: 15px; font-weight: 700; }
-  .topbar-logo span { color: #2563eb; }
-  .topbar-right { display: flex; align-items: center; gap: 12px; }
-  .topbar-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: #f0f4ff; color: #2563eb; border: 1px solid #c7d7fd; }
-  .logout-btn { font-size: 12px; color: #999; background: none; border: none; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
-  .main { max-width: 960px; margin: 0 auto; padding: 28px 24px; }
-  .metric-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
-  .metric-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 16px 18px; }
-  .mc-label { font-size: 11px; color: #888; margin-bottom: 6px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
-  .mc-val { font-size: 26px; font-weight: 600; }
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .section-title { font-size: 16px; font-weight: 600; }
-  .section-sub { font-size: 12px; color: #aaa; }
-  .filter-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  .filter-btn { font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 1px solid #e5e5e5; background: #fff; color: #555; cursor: pointer; font-family: inherit; }
-  .filter-btn.active { background: #eff6ff; color: #2563eb; border-color: #93c5fd; font-weight: 500; }
-  .prospect-list { display: flex; flex-direction: column; gap: 10px; }
-  .prospect-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: border-color 0.12s; }
-  .prospect-card:hover { border-color: #c7d7fd; }
-  .p-avatar { width: 38px; height: 38px; border-radius: 50%; background: #eff6ff; border: 1px solid #c7d7fd; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #2563eb; flex-shrink: 0; }
-  .p-info { flex: 1; min-width: 0; }
-  .p-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .p-sub { font-size: 12px; color: #888; }
-  .p-metrics { display: flex; gap: 16px; flex-shrink: 0; }
-  .p-metric { text-align: right; }
-  .p-metric-val { font-size: 16px; font-weight: 600; }
-  .p-metric-lbl { font-size: 10px; color: #aaa; }
-  .score-good { color: #16a34a; } .score-warn { color: #d97706; } .score-bad { color: #dc2626; }
-  .pill { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; display: inline-block; white-space: nowrap; }
-  .pill-pending { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
-  .pill-s2 { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
-  .pill-pass { background: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; }
-  .pill-done { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-  .pill-offer { background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; }
-  .detail-view { display: none; }
-  .detail-back { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-  .back-btn { font-size: 12px; padding: 5px 12px; border-radius: 8px; border: 1px solid #e5e5e5; background: #fff; color: #555; cursor: pointer; font-family: inherit; }
-  .score-banner { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
-  .score-banner-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-  .score-banner-label { font-size: 12px; color: #888; }
-  .score-banner-val { font-size: 30px; font-weight: 700; }
-  .bar-track { height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; margin-bottom: 14px; }
-  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
-  .score-sub-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-  .ssub { font-size: 11px; }
-  .ssub-lbl { color: #aaa; margin-bottom: 3px; }
-  .ssub-val { font-weight: 600; margin-bottom: 3px; }
-  .ssub-bar { height: 3px; background: #f0f0f0; border-radius: 2px; overflow: hidden; }
-  .ssub-fill { height: 100%; border-radius: 2px; }
-  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-  .detail-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; padding: 18px 20px; }
-  .detail-card.full { grid-column: 1 / -1; }
-  .detail-card-title { font-size: 12px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
-  .vrow { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f9f9f9; font-size: 13px; }
-  .vrow:last-child { border-bottom: none; }
-  .vlabel { color: #888; }
-  .vval { font-weight: 500; }
-  .vval.good { color: #16a34a; } .vval.warn { color: #d97706; } .vval.bad { color: #dc2626; }
-  .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-  .action-btn { font-size: 13px; font-weight: 500; padding: 9px 18px; border-radius: 8px; border: 1px solid #e5e5e5; background: #fff; cursor: pointer; font-family: inherit; }
-  .action-btn.approve { background: #f0fdf4; color: #15803d; border-color: #86efac; }
-  .action-btn.decline { background: #fff5f5; color: #dc2626; border-color: #fca5a5; }
-  .action-btn.analyze { background: #eff6ff; color: #2563eb; border-color: #93c5fd; }
-  .analysis-box { background: #fafafa; border: 1px solid #e5e5e5; border-radius: 8px; padding: 14px 16px; font-size: 13px; color: #444; line-height: 1.7; white-space: pre-wrap; min-height: 80px; }
-  .analysis-box.empty { color: #bbb; font-style: italic; }
-  .loading { display: flex; align-items: center; justify-content: center; padding: 60px; flex-direction: column; gap: 12px; }
-  .spinner { width: 28px; height: 28px; border: 2px solid #e5e5e5; border-top-color: #2563eb; border-radius: 50%; animation: spin 0.7s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { font-size: 13px; color: #aaa; }
-  .empty-state { text-align: center; padding: 60px 24px; background: #fff; border: 1px solid #e5e5e5; border-radius: 12px; }
-  .empty-state-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  .empty-state-sub { font-size: 13px; color: #888; }
-  .refresh-btn { font-size: 12px; padding: 5px 12px; border-radius: 8px; border: 1px solid #e5e5e5; background: #fff; color: #555; cursor: pointer; font-family: inherit; }
-  @media (max-width: 640px) { .metric-row { grid-template-columns: 1fr 1fr; } .detail-grid { grid-template-columns: 1fr; } .detail-card.full { grid-column: 1; } .score-sub-grid { grid-template-columns: 1fr 1fr; } .p-metrics { display: none; } .main { padding: 16px; } }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:#1a1a1a;background:#f5f5f3;line-height:1.5}
+.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-card{background:#fff;border:1px solid #e5e5e5;border-radius:14px;padding:40px 36px;width:100%;max-width:380px;text-align:center}
+.auth-logo{font-size:18px;font-weight:700;margin-bottom:6px}
+.auth-logo span{color:#2563eb}
+.auth-sub{font-size:13px;color:#888;margin-bottom:28px}
+.auth-label{font-size:11px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.04em;text-align:left;display:block;margin-bottom:6px}
+.auth-input{width:100%;padding:10px 14px;font-size:14px;font-family:inherit;border:1px solid #ddd;border-radius:8px;outline:none;margin-bottom:14px;background:#fafafa;color:#1a1a1a}
+.auth-input:focus{border-color:#2563eb;background:#fff}
+.auth-btn{width:100%;padding:11px;background:#2563eb;color:#fff;font-size:14px;font-weight:600;font-family:inherit;border:none;border-radius:8px;cursor:pointer}
+.auth-btn:hover{background:#1d4ed8}
+.auth-error{font-size:12px;color:#e53e3e;margin-top:10px;display:none}
+.app{display:none;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid #e5e5e5;padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-logo{font-size:15px;font-weight:700}
+.topbar-logo span{color:#2563eb}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.topbar-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:#f0f4ff;color:#2563eb;border:1px solid #c7d7fd}
+.logout-btn{font-size:12px;color:#999;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px}
+.main{max-width:960px;margin:0 auto;padding:28px 24px}
+.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.metric-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:16px 18px}
+.mc-label{font-size:11px;color:#888;margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.mc-val{font-size:26px;font-weight:600}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:16px;font-weight:600}
+.section-sub{font-size:12px;color:#aaa}
+.filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #e5e5e5;background:#fff;color:#555;cursor:pointer;font-family:inherit}
+.filter-btn.active{background:#eff6ff;color:#2563eb;border-color:#93c5fd;font-weight:500}
+.prospect-list{display:flex;flex-direction:column;gap:10px}
+.prospect-card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .12s}
+.prospect-card:hover{border-color:#c7d7fd}
+.p-avatar{width:38px;height:38px;border-radius:50%;background:#eff6ff;border:1px solid #c7d7fd;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#2563eb;flex-shrink:0}
+.p-info{flex:1;min-width:0}
+.p-name{font-size:14px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.p-sub{font-size:12px;color:#888}
+.p-metrics{display:flex;gap:16px;flex-shrink:0}
+.p-metric{text-align:right}
+.p-metric-val{font-size:16px;font-weight:600}
+.p-metric-lbl{font-size:10px;color:#aaa}
+.score-good{color:#16a34a}.score-warn{color:#d97706}.score-bad{color:#dc2626}
+.pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block;white-space:nowrap}
+.pill-pending{background:#fef9c3;color:#854d0e;border:1px solid #fde68a}
+.pill-s2{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.pill-pass{background:#f3f4f6;color:#6b7280;border:1px solid #e5e7eb}
+.pill-done{background:#dcfce7;color:#15803d;border:1px solid #86efac}
+.pill-offer{background:#f3e8ff;color:#7e22ce;border:1px solid #d8b4fe}
+.detail-view{display:none}
+.detail-back{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.back-btn{font-size:12px;padding:5px 12px;border-radius:8px;border:1px solid #e5e5e5;background:#fff;color:#555;cursor:pointer;font-family:inherit}
+.score-banner{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:20px 24px;margin-bottom:16px}
+.score-banner-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.score-banner-label{font-size:12px;color:#888}
+.score-banner-val{font-size:30px;font-weight:700}
+.bar-track{height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;margin-bottom:14px}
+.bar-fill{height:100%;border-radius:3px;transition:width .5s}
+.score-sub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ssub{font-size:11px}
+.ssub-lbl{color:#aaa;margin-bottom:3px}
+.ssub-val{font-weight:600;margin-bottom:3px}
+.ssub-bar{height:3px;background:#f0f0f0;border-radius:2px;overflow:hidden}
+.ssub-fill{height:100%;border-radius:2px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.detail-card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:18px 20px}
+.detail-card.full{grid-column:1/-1}
+.detail-card-title{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between}
+.vrow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f9f9f9;font-size:13px}
+.vrow:last-child{border-bottom:none}
+.vlabel{color:#888}
+.vval{font-weight:500}
+.vval.good{color:#16a34a}.vval.warn{color:#d97706}.vval.bad{color:#dc2626}
+.action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.action-btn{font-size:13px;font-weight:500;padding:9px 18px;border-radius:8px;border:1px solid #e5e5e5;background:#fff;cursor:pointer;font-family:inherit}
+.action-btn.approve{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.action-btn.decline{background:#fff5f5;color:#dc2626;border-color:#fca5a5}
+.action-btn.analyze{background:#eff6ff;color:#2563eb;border-color:#93c5fd}
+.analysis-box{background:#fafafa;border:1px solid #e5e5e5;border-radius:8px;padding:14px 16px;font-size:13px;color:#444;line-height:1.7;white-space:pre-wrap;min-height:80px}
+.analysis-box.empty{color:#bbb;font-style:italic}
+.loading{display:flex;align-items:center;justify-content:center;padding:60px;flex-direction:column;gap:12px}
+.spinner{width:28px;height:28px;border:2px solid #e5e5e5;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:#aaa}
+.empty-state{text-align:center;padding:60px 24px;background:#fff;border:1px solid #e5e5e5;border-radius:12px}
+.empty-state-title{font-size:16px;font-weight:600;margin-bottom:8px}
+.empty-state-sub{font-size:13px;color:#888}
+.refresh-btn{font-size:12px;padding:5px 12px;border-radius:8px;border:1px solid #e5e5e5;background:#fff;color:#555;cursor:pointer;font-family:inherit}
+@media(max-width:640px){.metric-row{grid-template-columns:1fr 1fr}.detail-grid{grid-template-columns:1fr}.detail-card.full{grid-column:1}.score-sub-grid{grid-template-columns:1fr 1fr}.p-metrics{display:none}.main{padding:16px}}
 </style>
 </head>
 <body>
@@ -121,14 +121,14 @@
   <div class="main">
     <div id="list-view">
       <div class="metric-row">
-        <div class="metric-card"><div class="mc-label">Total prospects</div><div class="mc-val" id="m-total">—</div></div>
-        <div class="metric-card"><div class="mc-label">Pending review</div><div class="mc-val" id="m-pending">—</div></div>
-        <div class="metric-card"><div class="mc-label">In Stage 2</div><div class="mc-val" id="m-s2">—</div></div>
+        <div class="metric-card"><div class="mc-label">Total prospects</div><div class="mc-val" id="m-total">0</div></div>
+        <div class="metric-card"><div class="mc-label">Pending review</div><div class="mc-val" id="m-pending">0</div></div>
+        <div class="metric-card"><div class="mc-label">In Stage 2</div><div class="mc-val" id="m-s2">0</div></div>
         <div class="metric-card"><div class="mc-label">Avg score</div><div class="mc-val" id="m-avg">—</div></div>
       </div>
       <div class="section-header">
         <div><div class="section-title">Prospects</div><div class="section-sub" id="prospect-sub">All submissions ranked by score</div></div>
-        <button class="refresh-btn" onclick="loadProspects()">↻ Refresh</button>
+        <button class="refresh-btn" onclick="loadProspects()">Refresh</button>
       </div>
       <div class="filter-row">
         <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
@@ -141,8 +141,8 @@
     </div>
     <div class="detail-view" id="detail-view">
       <div class="detail-back">
-        <button class="back-btn" onclick="showList()">← All prospects</button>
-        <div style="font-size:18px;font-weight:600" id="detail-title">—</div>
+        <button class="back-btn" onclick="showList()">Back to all prospects</button>
+        <div style="font-size:18px;font-weight:600" id="detail-title"></div>
         <div id="detail-pill" style="margin-left:6px"></div>
       </div>
       <div id="detail-content"></div>
@@ -151,174 +151,364 @@
 </div>
 
 <script>
-const DASHBOARD_PASSWORD = 'skyline2024';
-let AT = '', AB = '', API = '', HDR = {};
-let allRecords = [], currentFilter = 'all', currentRecord = null;
-
-async function initConfig() {
-  try {
-    const r = await fetch('/api/config');
-    const c = await r.json();
-    AT = c.token; AB = c.baseId;
-    API = `https://api.airtable.com/v0/${AB}/Stage%201%20Submissions`;
-    HDR = { 'Authorization': `Bearer ${AT}`, 'Content-Type': 'application/json' };
-  } catch(e) { console.error('Config error', e); }
-}
+var PW = 'skyline2024';
+var AT = '', AB = '', API_URL = '';
+var allRecords = [], currentFilter = 'all', currentRecord = null;
 
 function login() {
-  if (document.getElementById('auth-password').value === DASHBOARD_PASSWORD) {
+  var pw = document.getElementById('auth-password').value;
+  if (pw === PW) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     sessionStorage.setItem('svg-auth','1');
     loadProspects();
-  } else { document.getElementById('auth-error').style.display = 'block'; }
-}
-function logout() { sessionStorage.removeItem('svg-auth'); document.getElementById('auth-screen').style.display='flex'; document.getElementById('app').style.display='none'; }
-
-async function loadProspects() {
-  const wrap = document.getElementById('prospect-list-wrap');
-  wrap.innerHTML = '<div class="loading"><div class="spinner"></div><div class="loading-text">Loading prospects...</div></div>';
-  if (!AT) await initConfig();
-  try {
-    let records = [], offset = null;
-    do {
-      const url = API + '?pageSize=100' + (offset ? '&offset=' + offset : '');
-      const res = await fetch(url, { headers: HDR });
-      if (!res.ok) throw new Error('API error ' + res.status);
-      const data = await res.json();
-      records = records.concat(data.records || []);
-      offset = data.offset;
-    } while (offset);
-    allRecords = records.map(r => ({ id: r.id, ...r.fields }));
-    allRecords.sort((a,b) => score(b).total - score(a).total);
-    renderList(); updateMetrics();
-    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-  } catch(e) {
-    wrap.innerHTML = `<div class="empty-state"><div class="empty-state-title">Could not load data</div><div class="empty-state-sub">Check your Vercel environment variables are set.<br><small style="color:#ccc">${e.message}</small></div></div>`;
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
   }
 }
 
-function score(p) {
-  const rev=+p['Annual Revenue']||0, rent=(+p['Monthly Rent']||0)*12, util=(+p['Monthly Utilities']||0)*12, labor=(+p['Monthly Labor']||0)*12;
-  const asking=+p['Asking Price']||0, ly=+p['Lease Years Remaining']||0, lo=p['Lease Options']||'';
-  const mage=+p['Machine Age (avg years)']||10, mown=p['Machine Ownership']||'', ref=p['Last Equipment Refresh']||'';
-  const w=+p['Number of Washers']||0, d=+p['Number of Dryers']||0, rs2=p['Revenue Source']||'', op=p['Owner Role']||'';
-  let rs=0; if(rev>0){rs+=Math.min(25,(rev/400000)*25);rs+=rs2==='Tax returns'?15:(rs2==='P&L statement'||rs2==='Card processing')?10:3;if(op==='Absentee'||op==='Semi-absentee')rs+=5;rs+=Math.min(5,((w+d)/40)*5);}rs=Math.min(50,Math.round(rs));
-  let ms=0; if(rev>0){const rtr=rent/rev;ms+=rtr<.15?20:rtr<.22?15:rtr<.3?8:2;const eb=rev-rent-util-labor;const mg=eb/rev;ms+=mg>.4?20:mg>.3?14:mg>.2?8:mg>.1?3:0;if(asking>0&&eb>0){const x=asking/eb;ms+=x<2.5?10:x<3.5?7:x<5?4:0;}}ms=Math.min(50,Math.round(ms));
-  let ls=0;ls+=ly>=5?20:ly>=3?12:ly>=1?5:0;ls+=lo==='2x5'?25:lo==='1x5'?18:lo==='1x3'?12:0;ls=Math.min(50,Math.round((ls/45)*50));
-  let cs=mage<5?50:mage<8?38:mage<12?22:8;if(mown==='All leased')cs=Math.max(0,cs-15);if(ref==='Less than 3 years')cs=Math.min(50,cs+8);else if(ref==='Over 12 years')cs=Math.max(0,cs-10);cs=Math.min(50,Math.round(cs));
-  return {total:rs+ms+ls+cs,rs,ms,ls,cs};
+function logout() {
+  sessionStorage.removeItem('svg-auth');
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
 }
 
-function pill(status) {
-  const c=status==='Passed to Stage 2'?'pill-s2':status==='Not Advancing'?'pill-pass':status==='Stage 2 Complete'?'pill-done':status==='Offer Made'?'pill-offer':'pill-pending';
-  return `<span class="pill ${c}">${status}</span>`;
+function headers() {
+  return { 'Authorization': 'Bearer ' + AT, 'Content-Type': 'application/json' };
+}
+
+async function initConfig() {
+  try {
+    var res = await fetch('/api/config');
+    var cfg = await res.json();
+    AT = cfg.token;
+    AB = cfg.baseId;
+    API_URL = 'https://api.airtable.com/v0/' + AB + '/Submissions';
+  } catch(e) {
+    console.error('Config error', e);
+  }
+}
+
+async function loadProspects() {
+  var wrap = document.getElementById('prospect-list-wrap');
+  wrap.innerHTML = '<div class="loading"><div class="spinner"></div><div class="loading-text">Loading prospects...</div></div>';
+  if (!AT) { await initConfig(); }
+  try {
+    var records = [];
+    var offset = null;
+    do {
+      var url = API_URL + '?pageSize=100' + (offset ? '&offset=' + offset : '');
+      var res = await fetch(url, { headers: headers() });
+      if (!res.ok) throw new Error('API error ' + res.status);
+      var data = await res.json();
+      for (var i = 0; i < data.records.length; i++) {
+        var r = data.records[i];
+        var rec = { id: r.id };
+        var keys = Object.keys(r.fields);
+        for (var k = 0; k < keys.length; k++) { rec[keys[k]] = r.fields[keys[k]]; }
+        records.push(rec);
+      }
+      offset = data.offset || null;
+    } while (offset);
+    allRecords = records;
+    allRecords.sort(function(a,b){ return calcScore(b).total - calcScore(a).total; });
+    renderList();
+    updateMetrics();
+    var now = new Date();
+    document.getElementById('last-updated').textContent = 'Updated ' + now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  } catch(e) {
+    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-title">Could not load data</div><div class="empty-state-sub">Check your Vercel environment variables.<br>' + e.message + '</div></div>';
+  }
+}
+
+function calcScore(p) {
+  var rev = +(p['Annual Revenue']||0);
+  var rent = +(p['Monthly Rent']||0) * 12;
+  var util = +(p['Monthly Utilities']||0) * 12;
+  var labor = +(p['Monthly Labor']||0) * 12;
+  var asking = +(p['Asking Price']||0);
+  var ly = +(p['Lease Years Remaining']||0);
+  var lo = p['Lease Options']||'';
+  var mage = +(p['Machine Age (avg years)']||10);
+  var mown = p['Machine Ownership']||'';
+  var ref = p['Last Equipment Refresh']||'';
+  var w = +(p['Number of Washers']||0);
+  var d = +(p['Number of Dryers']||0);
+  var src = p['Revenue Source']||'';
+  var op = p['Owner Role']||'';
+
+  var rs = 0;
+  if (rev > 0) {
+    rs += Math.min(25, (rev/400000)*25);
+    rs += (src==='Tax returns') ? 15 : (src==='P&L statement'||src==='Card processing') ? 10 : 3;
+    if (op==='Absentee'||op==='Semi-absentee') rs += 5;
+    rs += Math.min(5, ((w+d)/40)*5);
+  }
+  rs = Math.min(50, Math.round(rs));
+
+  var ms = 0;
+  if (rev > 0) {
+    var rtr = rent/rev;
+    ms += (rtr<.15)?20:(rtr<.22)?15:(rtr<.3)?8:2;
+    var eb = rev-rent-util-labor;
+    var mg = eb/rev;
+    ms += (mg>.4)?20:(mg>.3)?14:(mg>.2)?8:(mg>.1)?3:0;
+    if (asking>0 && eb>0) {
+      var x = asking/eb;
+      ms += (x<2.5)?10:(x<3.5)?7:(x<5)?4:0;
+    }
+  }
+  ms = Math.min(50, Math.round(ms));
+
+  var ls = 0;
+  ls += (ly>=5)?20:(ly>=3)?12:(ly>=1)?5:0;
+  ls += (lo==='2x5')?25:(lo==='1x5')?18:(lo==='1x3')?12:0;
+  ls = Math.min(50, Math.round((ls/45)*50));
+
+  var cs = (mage<5)?50:(mage<8)?38:(mage<12)?22:8;
+  if (mown==='All leased') cs = Math.max(0, cs-15);
+  if (ref==='Less than 3 years') cs = Math.min(50, cs+8);
+  else if (ref==='Over 12 years') cs = Math.max(0, cs-10);
+  cs = Math.min(50, Math.round(cs));
+
+  return { total: rs+ms+ls+cs, rs:rs, ms:ms, ls:ls, cs:cs };
+}
+
+function pillHtml(status) {
+  var c = (status==='Passed to Stage 2') ? 'pill-s2' :
+          (status==='Not Advancing') ? 'pill-pass' :
+          (status==='Stage 2 Complete') ? 'pill-done' :
+          (status==='Offer Made') ? 'pill-offer' : 'pill-pending';
+  return '<span class="pill ' + c + '">' + status + '</span>';
+}
+
+function fmt(n) { return n ? '$' + Math.round(n).toLocaleString() : '—'; }
+function fPct(n) { return (n !== null && !isNaN(n)) ? Math.round(n*100) + '%' : '—'; }
+function clrClass(v, g, w, lo) {
+  if (lo) return (v<=g) ? 'good' : (v<=w) ? 'warn' : 'bad';
+  return (v>=g) ? 'good' : (v>=w) ? 'warn' : 'bad';
 }
 
 function renderList() {
-  const wrap = document.getElementById('prospect-list-wrap');
-  const f = currentFilter==='all'?allRecords:allRecords.filter(p=>p['Stage Status']===currentFilter);
-  if(!f.length){wrap.innerHTML='<div class="empty-state"><div class="empty-state-title">No prospects yet</div><div class="empty-state-sub">Submissions from your intake form will appear here automatically.</div></div>';return;}
-  document.getElementById('prospect-sub').textContent=f.length+' prospect'+(f.length!==1?'s':'')+', ranked by score';
-  const sc_col = t => { const p=Math.round((t/200)*100); return p>=65?'score-good':p>=40?'score-warn':'score-bad'; };
-  wrap.innerHTML='<div class="prospect-list">'+f.map(p=>{
-    const sc=score(p),ini=(p['Business Name']||p['Owner Name']||'XX').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const st=p['Stage Status']||'Pending Review',rev=p['Annual Revenue']?'$'+Math.round(p['Annual Revenue']/1000)+'k':'—';
-    const eb=p['Annual Revenue']&&p['Monthly Rent']?Math.round(p['Annual Revenue']-(p['Monthly Rent']+(p['Monthly Utilities']||0)+(p['Monthly Labor']||0))*12):null;
-    const mg=eb&&p['Annual Revenue']?Math.round((eb/p['Annual Revenue'])*100):null;
-    return `<div class="prospect-card" onclick="openP('${p.id}')"><div class="p-avatar">${ini}</div><div class="p-info"><div class="p-name">${p['Business Name']||p['Owner Name']||'Unnamed'} ${pill(st)}</div><div class="p-sub">${p['Address']||'—'}</div></div><div class="p-metrics"><div class="p-metric"><div class="p-metric-val">${rev}</div><div class="p-metric-lbl">Revenue</div></div><div class="p-metric"><div class="p-metric-val">${mg!==null?mg+'%':'—'}</div><div class="p-metric-lbl">Est. margin</div></div><div class="p-metric"><div class="p-metric-val ${sc_col(sc.total)}">${sc.total}</div><div class="p-metric-lbl">/ 200 score</div></div></div></div>`;
-  }).join('')+'</div>';
+  var wrap = document.getElementById('prospect-list-wrap');
+  var filtered = (currentFilter==='all') ? allRecords : allRecords.filter(function(p){ return p['Stage Status']===currentFilter; });
+  if (!filtered.length) {
+    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-title">No prospects yet</div><div class="empty-state-sub">Submissions from your intake form will appear here automatically.</div></div>';
+    return;
+  }
+  document.getElementById('prospect-sub').textContent = filtered.length + ' prospect' + (filtered.length!==1?'s':'') + ', ranked by score';
+  var html = '<div class="prospect-list">';
+  for (var i = 0; i < filtered.length; i++) {
+    var p = filtered[i];
+    var sc = calcScore(p);
+    var pct = Math.round((sc.total/200)*100);
+    var cls = (pct>=65)?'score-good':(pct>=40)?'score-warn':'score-bad';
+    var name = p['Business Name']||p['Owner Name']||'Unnamed';
+    var ini = name.split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase();
+    var st = p['Stage Status']||'Pending Review';
+    var rev = p['Annual Revenue'] ? ('$'+Math.round(p['Annual Revenue']/1000)+'k') : '—';
+    var eb = (p['Annual Revenue']&&p['Monthly Rent']) ? Math.round(p['Annual Revenue']-(+(p['Monthly Rent']||0)++(p['Monthly Utilities']||0)++(p['Monthly Labor']||0))*12) : null;
+    var mg = (eb!==null&&p['Annual Revenue']) ? Math.round((eb/p['Annual Revenue'])*100) : null;
+    html += '<div class="prospect-card" onclick="openP(\'' + p.id + '\')">';
+    html += '<div class="p-avatar">' + ini + '</div>';
+    html += '<div class="p-info"><div class="p-name">' + name + ' ' + pillHtml(st) + '</div><div class="p-sub">' + (p['Address']||'—') + '</div></div>';
+    html += '<div class="p-metrics">';
+    html += '<div class="p-metric"><div class="p-metric-val">' + rev + '</div><div class="p-metric-lbl">Revenue</div></div>';
+    html += '<div class="p-metric"><div class="p-metric-val">' + (mg!==null?mg+'%':'—') + '</div><div class="p-metric-lbl">Est. margin</div></div>';
+    html += '<div class="p-metric"><div class="p-metric-val ' + cls + '">' + sc.total + '</div><div class="p-metric-lbl">/ 200 score</div></div>';
+    html += '</div></div>';
+  }
+  html += '</div>';
+  wrap.innerHTML = html;
 }
 
 function updateMetrics() {
-  document.getElementById('m-total').textContent=allRecords.length;
-  document.getElementById('m-pending').textContent=allRecords.filter(p=>!p['Stage Status']||p['Stage Status']==='Pending Review').length;
-  document.getElementById('m-s2').textContent=allRecords.filter(p=>['Passed to Stage 2','Stage 2 Complete'].includes(p['Stage Status'])).length;
-  const sc=allRecords.map(p=>score(p).total);
-  document.getElementById('m-avg').textContent=sc.length?Math.round(sc.reduce((a,b)=>a+b,0)/sc.length):'—';
+  document.getElementById('m-total').textContent = allRecords.length;
+  document.getElementById('m-pending').textContent = allRecords.filter(function(p){ return !p['Stage Status']||p['Stage Status']==='Pending Review'; }).length;
+  document.getElementById('m-s2').textContent = allRecords.filter(function(p){ return p['Stage Status']==='Passed to Stage 2'||p['Stage Status']==='Stage 2 Complete'; }).length;
+  var scores = allRecords.map(function(p){ return calcScore(p).total; });
+  document.getElementById('m-avg').textContent = scores.length ? Math.round(scores.reduce(function(a,b){return a+b;},0)/scores.length) : '—';
 }
 
-function setFilter(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderList();}
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderList();
+}
 
 function openP(id) {
-  const p=allRecords.find(r=>r.id===id);if(!p)return;currentRecord=p;
-  document.getElementById('list-view').style.display='none';document.getElementById('detail-view').style.display='block';
-  document.getElementById('detail-title').textContent=p['Business Name']||p['Owner Name']||'Unnamed';
-  document.getElementById('detail-pill').innerHTML=pill(p['Stage Status']||'Pending Review');
-  const sc=score(p),pct=Math.round((sc.total/200)*100),col=pct>=65?'#16a34a':pct>=40?'#d97706':'#dc2626';
-  const rev=+p['Annual Revenue']||0,rent=(+p['Monthly Rent']||0)*12,util=(+p['Monthly Utilities']||0)*12,labor=(+p['Monthly Labor']||0)*12;
-  const eb=rev-rent-util-labor,mg=rev>0?eb/rev:null,rtr=rev>0&&rent>0?rent/rev:null;
-  const fmt=n=>n?'$'+Math.round(n).toLocaleString():'—',fP=n=>n!==null?Math.round(n*100)+'%':'—';
-  const clr=(v,g,w,lo)=>lo?(v<=g?'good':v<=w?'warn':'bad'):(v>=g?'good':v>=w?'warn':'bad');
-  const st=p['Stage Status']||'Pending Review';
-  document.getElementById('detail-content').innerHTML=`
-  <div class="score-banner">
-    <div class="score-banner-top"><span class="score-banner-label">Opportunity score</span><span class="score-banner-val" style="color:${col}">${sc.total} / 200</span></div>
-    <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${col}"></div></div>
-    <div class="score-sub-grid">
-      <div class="ssub"><div class="ssub-lbl">Revenue quality</div><div class="ssub-val">${sc.rs}/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:${Math.round(sc.rs/50*100)}%;background:${col}"></div></div></div>
-      <div class="ssub"><div class="ssub-lbl">Margin profile</div><div class="ssub-val">${sc.ms}/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:${Math.round(sc.ms/50*100)}%;background:${col}"></div></div></div>
-      <div class="ssub"><div class="ssub-lbl">Lease security</div><div class="ssub-val">${sc.ls}/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:${Math.round(sc.ls/50*100)}%;background:${col}"></div></div></div>
-      <div class="ssub"><div class="ssub-lbl">Capex risk</div><div class="ssub-val">${sc.cs}/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:${Math.round(sc.cs/50*100)}%;background:${col}"></div></div></div>
-    </div>
-  </div>
-  <div class="detail-grid">
-    <div class="detail-card"><div class="detail-card-title">Contact & business</div>
-      <div class="vrow"><span class="vlabel">Owner</span><span class="vval">${p['Owner Name']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Phone</span><span class="vval">${p['Phone']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Email</span><span class="vval">${p['Email']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Address</span><span class="vval">${p['Address']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Years operating</span><span class="vval">${p['Years in Operation']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Owner role</span><span class="vval">${p['Owner Role']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Reason for selling</span><span class="vval">${p['Reason for Selling']||'—'}</span></div>
-    </div>
-    <div class="detail-card"><div class="detail-card-title">Financial snapshot</div>
-      <div class="vrow"><span class="vlabel">Annual revenue</span><span class="vval">${fmt(rev)}</span></div>
-      <div class="vrow"><span class="vlabel">Annual rent</span><span class="vval">${fmt(rent)}</span></div>
-      <div class="vrow"><span class="vlabel">Est. EBITDA</span><span class="vval ${eb>0?'good':'bad'}">${fmt(eb)}</span></div>
-      <div class="vrow"><span class="vlabel">EBITDA margin</span><span class="vval ${mg!==null?clr(mg,.30,.18):''}">${fP(mg)}</span></div>
-      <div class="vrow"><span class="vlabel">Rent-to-revenue</span><span class="vval ${rtr!==null?clr(rtr,.15,.22,true):''}">${fP(rtr)}</span></div>
-      <div class="vrow"><span class="vlabel">Revenue source</span><span class="vval">${p['Revenue Source']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Asking price</span><span class="vval">${fmt(+p['Asking Price']||0)}</span></div>
-    </div>
-    <div class="detail-card"><div class="detail-card-title">Valuation range</div>
-      ${eb>0?`<div class="vrow"><span class="vlabel">2× SDE — floor</span><span class="vval">${fmt(eb*2)}</span></div><div class="vrow"><span class="vlabel">3× SDE — midpoint</span><span class="vval">${fmt(eb*3)}</span></div><div class="vrow"><span class="vlabel">4× SDE — ceiling</span><span class="vval">${fmt(eb*4)}</span></div><div class="vrow"><span class="vlabel">Asking price</span><span class="vval">${fmt(+p['Asking Price']||0)}</span></div>${p['Asking Price']?`<div class="vrow"><span class="vlabel">Asking vs range</span><span class="vval ${+p['Asking Price']<=eb*3?'good':+p['Asking Price']<=eb*4?'warn':'bad'}">${+p['Asking Price']<=eb*3?'At or below midpoint':+p['Asking Price']<=eb*4?'Above midpoint':'Above 4× — negotiate down'}</span></div>`:'`':'<div style="padding:12px 0;font-size:13px;color:#aaa">Enter revenue data to see valuation</div>'}
-    </div>
-    <div class="detail-card"><div class="detail-card-title">Lease & equipment</div>
-      <div class="vrow"><span class="vlabel">Lease remaining</span><span class="vval">${p['Lease Years Remaining']?p['Lease Years Remaining']+' yrs':'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Renewal options</span><span class="vval">${p['Lease Options']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Rent escalation</span><span class="vval">${p['Rent Escalation']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Washers / dryers</span><span class="vval">${p['Number of Washers']||'—'} / ${p['Number of Dryers']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Avg machine age</span><span class="vval">${p['Machine Age (avg years)']?p['Machine Age (avg years)']+' yrs':'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Machine ownership</span><span class="vval">${p['Machine Ownership']||'—'}</span></div>
-      <div class="vrow"><span class="vlabel">Last refresh</span><span class="vval">${p['Last Equipment Refresh']||'—'}</span></div>
-    </div>
-    <div class="detail-card full"><div class="detail-card-title">Claude analysis <span style="font-size:11px;color:#aaa;font-weight:400;text-transform:none">Auto-populated by Make.com</span></div>
-      <div class="analysis-box ${p['Claude Analysis']?'':'empty'}">${p['Claude Analysis']||'No analysis yet — will populate automatically once Make.com automation is configured.'}</div>
-    </div>
-    <div class="detail-card full"><div class="detail-card-title">Internal notes</div>
-      <textarea style="width:100%;min-height:80px;padding:10px 12px;font-size:13px;font-family:inherit;border:1px solid #e5e5e5;border-radius:8px;resize:vertical;outline:none;background:#fafafa;line-height:1.5" placeholder="Your notes..." onchange="saveNote('${p.id}',this.value)">${p['Internal Notes']||''}</textarea>
-    </div>
-  </div>
-  <div class="action-row" id="ar-${p.id}">
-    ${st==='Pending Review'||!p['Stage Status']?`<button class="action-btn approve" onclick="setStatus('${p.id}','Passed to Stage 2')">Pass to Stage 2</button><button class="action-btn decline" onclick="setStatus('${p.id}','Not Advancing')">Not advancing</button>`:`<span style="font-size:12px;color:#aaa;padding:8px 0">Status: ${st}</span>`}
-    <button class="action-btn analyze" onclick="runAnalysis()">Run full analysis with Claude ↗</button>
-  </div>`;
+  var p = null;
+  for (var i=0;i<allRecords.length;i++) { if(allRecords[i].id===id){p=allRecords[i];break;} }
+  if (!p) return;
+  currentRecord = p;
+  document.getElementById('list-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'block';
+  document.getElementById('detail-title').textContent = p['Business Name']||p['Owner Name']||'Unnamed';
+  var st = p['Stage Status']||'Pending Review';
+  document.getElementById('detail-pill').innerHTML = pillHtml(st);
+
+  var sc = calcScore(p);
+  var pct = Math.round((sc.total/200)*100);
+  var col = (pct>=65)?'#16a34a':(pct>=40)?'#d97706':'#dc2626';
+
+  var rev = +(p['Annual Revenue']||0);
+  var rent = +(p['Monthly Rent']||0)*12;
+  var util = +(p['Monthly Utilities']||0)*12;
+  var labor = +(p['Monthly Labor']||0)*12;
+  var eb = rev-rent-util-labor;
+  var mg = rev>0 ? eb/rev : null;
+  var rtr = (rev>0&&rent>0) ? rent/rev : null;
+  var asking = +(p['Asking Price']||0);
+
+  var html = '';
+
+  // Score banner
+  html += '<div class="score-banner">';
+  html += '<div class="score-banner-top"><span class="score-banner-label">Opportunity score</span><span class="score-banner-val" style="color:' + col + '">' + sc.total + ' / 200</span></div>';
+  html += '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + col + '"></div></div>';
+  html += '<div class="score-sub-grid">';
+  html += '<div class="ssub"><div class="ssub-lbl">Revenue quality</div><div class="ssub-val">' + sc.rs + '/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:' + Math.round(sc.rs/50*100) + '%;background:' + col + '"></div></div></div>';
+  html += '<div class="ssub"><div class="ssub-lbl">Margin profile</div><div class="ssub-val">' + sc.ms + '/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:' + Math.round(sc.ms/50*100) + '%;background:' + col + '"></div></div></div>';
+  html += '<div class="ssub"><div class="ssub-lbl">Lease security</div><div class="ssub-val">' + sc.ls + '/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:' + Math.round(sc.ls/50*100) + '%;background:' + col + '"></div></div></div>';
+  html += '<div class="ssub"><div class="ssub-lbl">Capex risk</div><div class="ssub-val">' + sc.cs + '/50</div><div class="ssub-bar"><div class="ssub-fill" style="width:' + Math.round(sc.cs/50*100) + '%;background:' + col + '"></div></div></div>';
+  html += '</div></div>';
+
+  // Detail grid
+  html += '<div class="detail-grid">';
+
+  // Contact card
+  html += '<div class="detail-card"><div class="detail-card-title">Contact &amp; business</div>';
+  html += '<div class="vrow"><span class="vlabel">Owner</span><span class="vval">' + (p['Owner Name']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Phone</span><span class="vval">' + (p['Phone']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Email</span><span class="vval">' + (p['Email']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Address</span><span class="vval">' + (p['Address']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Years operating</span><span class="vval">' + (p['Years in Operation']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Owner role</span><span class="vval">' + (p['Owner Role']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Reason for selling</span><span class="vval">' + (p['Reason for Selling']||'—') + '</span></div>';
+  html += '</div>';
+
+  // Financial card
+  html += '<div class="detail-card"><div class="detail-card-title">Financial snapshot</div>';
+  html += '<div class="vrow"><span class="vlabel">Annual revenue</span><span class="vval">' + fmt(rev) + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Annual rent</span><span class="vval">' + fmt(rent) + '</span></div>';
+  var ebCls = eb>0?'good':'bad';
+  html += '<div class="vrow"><span class="vlabel">Est. EBITDA</span><span class="vval ' + ebCls + '">' + fmt(eb) + '</span></div>';
+  var mgCls = (mg!==null) ? clrClass(mg,.30,.18,false) : '';
+  html += '<div class="vrow"><span class="vlabel">EBITDA margin</span><span class="vval ' + mgCls + '">' + fPct(mg) + '</span></div>';
+  var rtrCls = (rtr!==null) ? clrClass(rtr,.15,.22,true) : '';
+  html += '<div class="vrow"><span class="vlabel">Rent-to-revenue</span><span class="vval ' + rtrCls + '">' + fPct(rtr) + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Revenue source</span><span class="vval">' + (p['Revenue Source']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Asking price</span><span class="vval">' + fmt(asking) + '</span></div>';
+  html += '</div>';
+
+  // Valuation card
+  html += '<div class="detail-card"><div class="detail-card-title">Valuation range</div>';
+  if (eb > 0) {
+    html += '<div class="vrow"><span class="vlabel">2x SDE — floor</span><span class="vval">' + fmt(eb*2) + '</span></div>';
+    html += '<div class="vrow"><span class="vlabel">3x SDE — midpoint</span><span class="vval">' + fmt(eb*3) + '</span></div>';
+    html += '<div class="vrow"><span class="vlabel">4x SDE — ceiling</span><span class="vval">' + fmt(eb*4) + '</span></div>';
+    html += '<div class="vrow"><span class="vlabel">Asking price</span><span class="vval">' + fmt(asking) + '</span></div>';
+    if (asking > 0) {
+      var askCls = (asking<=eb*3)?'good':(asking<=eb*4)?'warn':'bad';
+      var askTxt = (asking<=eb*3)?'At or below midpoint':(asking<=eb*4)?'Above midpoint, within range':'Above 4x — negotiate down';
+      html += '<div class="vrow"><span class="vlabel">Asking vs range</span><span class="vval ' + askCls + '">' + askTxt + '</span></div>';
+    }
+  } else {
+    html += '<div style="padding:12px 0;font-size:13px;color:#aaa">Enter revenue data to see valuation range</div>';
+  }
+  html += '</div>';
+
+  // Lease & equipment card
+  html += '<div class="detail-card"><div class="detail-card-title">Lease &amp; equipment</div>';
+  html += '<div class="vrow"><span class="vlabel">Lease remaining</span><span class="vval">' + (p['Lease Years Remaining'] ? p['Lease Years Remaining']+' yrs' : '—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Renewal options</span><span class="vval">' + (p['Lease Options']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Rent escalation</span><span class="vval">' + (p['Rent Escalation']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Washers / dryers</span><span class="vval">' + (p['Number of Washers']||'—') + ' / ' + (p['Number of Dryers']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Avg machine age</span><span class="vval">' + (p['Machine Age (avg years)'] ? p['Machine Age (avg years)']+' yrs' : '—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Machine ownership</span><span class="vval">' + (p['Machine Ownership']||'—') + '</span></div>';
+  html += '<div class="vrow"><span class="vlabel">Last refresh</span><span class="vval">' + (p['Last Equipment Refresh']||'—') + '</span></div>';
+  html += '</div>';
+
+  // Analysis box
+  html += '<div class="detail-card full"><div class="detail-card-title">Claude analysis <span style="font-size:11px;color:#aaa;font-weight:400;text-transform:none">Auto-populated by Make.com</span></div>';
+  var analysis = p['Claude Analysis']||'';
+  html += '<div class="analysis-box' + (analysis?'':' empty') + '">' + (analysis||'No analysis yet — will populate automatically once Make.com automation is configured.') + '</div>';
+  html += '</div>';
+
+  // Notes
+  html += '<div class="detail-card full"><div class="detail-card-title">Internal notes</div>';
+  html += '<textarea id="notes-' + p.id + '" style="width:100%;min-height:80px;padding:10px 12px;font-size:13px;font-family:inherit;border:1px solid #e5e5e5;border-radius:8px;resize:vertical;outline:none;background:#fafafa;line-height:1.5" placeholder="Your notes..." onchange="saveNote(\'' + p.id + '\',this.value)">' + (p['Internal Notes']||'') + '</textarea>';
+  html += '</div>';
+
+  html += '</div>'; // end detail-grid
+
+  // Actions
+  html += '<div class="action-row" id="ar-' + p.id + '">';
+  if (!p['Stage Status'] || p['Stage Status']==='Pending Review') {
+    html += '<button class="action-btn approve" onclick="setStatus(\'' + p.id + '\',\'Passed to Stage 2\')">Pass to Stage 2</button>';
+    html += '<button class="action-btn decline" onclick="setStatus(\'' + p.id + '\',\'Not Advancing\')">Not advancing</button>';
+  } else {
+    html += '<span style="font-size:12px;color:#aaa;padding:8px 0">Status: ' + st + '</span>';
+  }
+  html += '<button class="action-btn analyze" onclick="runAnalysis()">Run full analysis with Claude</button>';
+  html += '</div>';
+
+  document.getElementById('detail-content').innerHTML = html;
 }
 
-function showList(){document.getElementById('list-view').style.display='block';document.getElementById('detail-view').style.display='none';loadProspects();}
-async function setStatus(id,st){await fetch(`${API}/${id}`,{method:'PATCH',headers:HDR,body:JSON.stringify({fields:{'Stage Status':st}})});const p=allRecords.find(r=>r.id===id);if(p)p['Stage Status']=st;document.getElementById('detail-pill').innerHTML=pill(st);document.getElementById('ar-'+id).innerHTML=`<span style="font-size:12px;color:#aaa;padding:8px 0">Status: ${st}</span><button class="action-btn analyze" onclick="runAnalysis()">Run full analysis with Claude ↗</button>`;}
-async function saveNote(id,note){await fetch(`${API}/${id}`,{method:'PATCH',headers:HDR,body:JSON.stringify({fields:{'Internal Notes':note}})});}
+function showList() {
+  document.getElementById('list-view').style.display = 'block';
+  document.getElementById('detail-view').style.display = 'none';
+  loadProspects();
+}
 
-function runAnalysis(){
-  const p=currentRecord;if(!p)return;const sc=score(p);
-  const rev=+p['Annual Revenue']||0,rent=(+p['Monthly Rent']||0)*12,util=(+p['Monthly Utilities']||0)*12,labor=(+p['Monthly Labor']||0)*12,eb=rev-rent-util-labor;
-  const prompt=`Run a full acquisition analysis for ${p['Business Name']||p['Owner Name']} at ${p['Address']}.\n\nOpportunity score: ${sc.total}/200\nAnnual revenue: ${rev?'$'+Math.round(rev).toLocaleString():'not provided'}\nEst. EBITDA: ${eb?'$'+Math.round(eb).toLocaleString():'not calculable'}\nAsking price: ${p['Asking Price']?'$'+(+p['Asking Price']).toLocaleString():'not stated'}\nLease: ${p['Lease Years Remaining']||'?'} years remaining, options: ${p['Lease Options']||'unknown'}\nMachines: ${p['Number of Washers']||'?'} washers / ${p['Number of Dryers']||'?'} dryers, avg age ${p['Machine Age (avg years)']||'?'} years\nRevenue source: ${p['Revenue Source']||'unknown'}\nOwner role: ${p['Owner Role']||'unknown'}\nReason for selling: ${p['Reason for Selling']||'unknown'}\nSeller notes: ${p['Seller Notes']||'none'}\n\nProvide: SDE estimate, EBITDA margin assessment, valuation range (2x-4x SDE), offer recommendation, top 3 risks to underwrite, and geo-enrichment data to pull for this address.`;
-  navigator.clipboard.writeText(prompt).catch(()=>{});
+async function setStatus(id, status) {
+  await fetch(API_URL + '/' + id, { method:'PATCH', headers:headers(), body:JSON.stringify({fields:{'Stage Status':status}}) });
+  for (var i=0;i<allRecords.length;i++) { if(allRecords[i].id===id){allRecords[i]['Stage Status']=status;break;} }
+  document.getElementById('detail-pill').innerHTML = pillHtml(status);
+  document.getElementById('ar-'+id).innerHTML = '<span style="font-size:12px;color:#aaa;padding:8px 0">Status: ' + status + '</span><button class="action-btn analyze" onclick="runAnalysis()">Run full analysis with Claude</button>';
+}
+
+async function saveNote(id, note) {
+  await fetch(API_URL + '/' + id, { method:'PATCH', headers:headers(), body:JSON.stringify({fields:{'Internal Notes':note}}) });
+}
+
+function runAnalysis() {
+  var p = currentRecord;
+  if (!p) return;
+  var sc = calcScore(p);
+  var rev = +(p['Annual Revenue']||0);
+  var rent = +(p['Monthly Rent']||0)*12;
+  var util = +(p['Monthly Utilities']||0)*12;
+  var labor = +(p['Monthly Labor']||0)*12;
+  var eb = rev-rent-util-labor;
+  var lines = [
+    'Run a full acquisition analysis for ' + (p['Business Name']||p['Owner Name']||'this business') + ' at ' + (p['Address']||'unknown address') + '.',
+    '',
+    'Opportunity score: ' + sc.total + '/200',
+    'Annual revenue: ' + (rev ? '$'+Math.round(rev).toLocaleString() : 'not provided'),
+    'Est. EBITDA: ' + (eb ? '$'+Math.round(eb).toLocaleString() : 'not calculable'),
+    'Asking price: ' + (p['Asking Price'] ? '$'+(+(p['Asking Price'])).toLocaleString() : 'not stated'),
+    'Lease: ' + (p['Lease Years Remaining']||'?') + ' years remaining, options: ' + (p['Lease Options']||'unknown'),
+    'Machines: ' + (p['Number of Washers']||'?') + ' washers / ' + (p['Number of Dryers']||'?') + ' dryers, avg age ' + (p['Machine Age (avg years)']||'?') + ' years',
+    'Revenue source: ' + (p['Revenue Source']||'unknown'),
+    'Owner role: ' + (p['Owner Role']||'unknown'),
+    'Reason for selling: ' + (p['Reason for Selling']||'unknown'),
+    'Seller notes: ' + (p['Seller Notes']||'none'),
+    '',
+    'Provide: SDE estimate, EBITDA margin assessment, valuation range (2x-4x SDE), offer price recommendation, top 3 risks to underwrite, and what geo-enrichment data to pull for this address (renter density, competitor radius, demographics).'
+  ];
+  var prompt = lines.join('\n');
+  navigator.clipboard.writeText(prompt).catch(function(){});
   alert('Analysis prompt copied to clipboard — paste it into Claude to run the analysis.');
 }
 
-if(sessionStorage.getItem('svg-auth')==='1'){document.getElementById('auth-screen').style.display='none';document.getElementById('app').style.display='block';loadProspects();}
+if (sessionStorage.getItem('svg-auth')==='1') {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadProspects();
+}
 </script>
 </body>
 </html>
