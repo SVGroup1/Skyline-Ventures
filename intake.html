@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skyline Ventures Group — Business Inquiry</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #1a1a1a;
+    background: #f5f5f3;
+    line-height: 1.6;
+    padding: 0 0 60px;
+  }
+
+  .header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 24px 0;
+    margin-bottom: 32px;
+  }
+  .header-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: -0.3px;
+  }
+  .logo span { color: #2563eb; }
+  .confidential {
+    font-size: 11px;
+    color: #888;
+    background: #f5f5f3;
+    border: 1px solid #e5e5e5;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .intro {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  .intro h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    letter-spacing: -0.4px;
+  }
+  .intro p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.65;
+  }
+  .intro-meta {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+  }
+  .intro-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #777;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  .card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .sec-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f4ff;
+    border: 1px solid #c7d7fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #2563eb;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .full { grid-column: 1 / -1; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .req { color: #e53e3e; margin-left: 2px; }
+  .hint { font-size: 11px; color: #999; margin-top: 2px; line-height: 1.4; }
+
+  input[type=text],
+  input[type=number],
+  input[type=email],
+  input[type=tel],
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 9px 12px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.08);
+  }
+  input::placeholder, textarea::placeholder { color: #bbb; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+  .divider { height: 1px; background: #f0f0f0; margin: 18px 0; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+  .tag {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    color: #555;
+    background: #fafafa;
+    user-select: none;
+    transition: all 0.12s;
+  }
+  .tag:hover { border-color: #2563eb; color: #2563eb; }
+  .tag.on { background: #eff6ff; color: #2563eb; border-color: #93c5fd; font-weight: 500; }
+
+  .submit-wrap { margin-top: 24px; }
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #2563eb;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: -0.1px;
+  }
+  .submit-btn:hover { background: #1d4ed8; }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-note {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .progress-label { font-size: 12px; color: #777; white-space: nowrap; }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #2563eb;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-pct { font-size: 12px; font-weight: 600; color: #2563eb; white-space: nowrap; min-width: 30px; text-align: right; }
+
+  /* Confirmation screen */
+  .confirm-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 32px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+  }
+  .confirm-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 22px;
+  }
+  .confirm-title { font-size: 22px; font-weight: 600; color: #1a1a1a; margin-bottom: 10px; }
+  .confirm-sub { font-size: 14px; color: #555; max-width: 420px; margin: 0 auto 24px; line-height: 1.65; }
+  .confirm-detail {
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 16px 20px;
+    max-width: 380px;
+    margin: 0 auto 20px;
+    text-align: left;
+  }
+  .confirm-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .confirm-row:last-child { border-bottom: none; }
+  .confirm-row-label { color: #999; }
+  .confirm-row-val { font-weight: 500; color: #1a1a1a; }
+  .confirm-contact { font-size: 12px; color: #aaa; }
+  .confirm-contact a { color: #2563eb; text-decoration: none; }
+
+  /* Error state */
+  input.error, select.error, textarea.error { border-color: #e53e3e; background: #fff5f5; }
+  .error-msg { font-size: 11px; color: #e53e3e; margin-top: 3px; }
+
+  @media (max-width: 580px) {
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .full { grid-column: 1; }
+    .card { padding: 20px; }
+    .intro { padding: 22px; }
+    .intro-meta { flex-direction: column; gap: 8px; }
+    .header-inner { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">Skyline <span>Ventures</span> Group</div>
+    <div class="confidential">Confidential</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div id="form-wrap">
+
+    <div class="intro">
+      <h1>Tell us about your laundromat</h1>
+      <p>We're actively acquiring laundromats in the New York and New Jersey area. If your business may be a fit, fill out this short form and we'll be in touch within 1–2 business days. There's no obligation and all information is kept strictly confidential.</p>
+      <div class="intro-meta">
+        <div class="intro-meta-item"><div class="dot" style="background:#2563eb"></div>Takes about 5 minutes</div>
+        <div class="intro-meta-item"><div class="dot" style="background:#16a34a"></div>No obligation</div>
+        <div class="intro-meta-item"><div class="dot" style="background:#9333ea"></div>100% confidential</div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <span class="progress-label">Form progress</span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <span class="progress-pct" id="progress-pct">0%</span>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="sec-num">1</div>
+        <span class="card-title">About you & your business</span>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Your name <span class="req">*</span></label>
+          <input type="text" id="owner-name" placeholder="First and last name" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Best phone number <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="(201) 555-0100" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Email address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="you@email.com" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Business name</label>
+          <input type="text" id="biz-name" placeholder="e.g. Sunshine Laundromat" oninput="updateProgress()">
+        </div>
+        <div class="field full">
+          <label>Full business address <span class="req">*</span></label>
+          <input type="text" id="address" placeholder="147 Journal Square Blvd, Jersey City, NJ 07306" oninput="updateProgress()">
+          <span class="hint">Include street, city, state, and ZIP</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="grid3">
+        <div class="field">
+          <label>Years in operation <span class="req">*</span></label>
+          <input type="number" id="years-op" placeholder="e.g. 12" min="0" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Your role</label>
+          <select id="op-type" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option value="owner">Owner-operated (daily)</option>
+            <option value="semi">Semi-absentee (weekly visits)</option>
+            <option value="absentee">Absentee — manager runs it</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Reason for selling</label>
+          <select id="sell-reason" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option>Retirement</option>
+            <option>Health / personal reasons</option>
+            <option>Relocation</option>
+            <option>Selling part of portfolio</option>
+            <option>Business reason</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="sec-num">2</div>
+        <span class="card-title">Revenue</span>
+      </div>
+      <div class="grid3">
+        <div class="field">
+          <label>Annual gross revenue (last full year) <span class="req">*</span></label>
+          <input type="number" id="annual-rev" placeholder="e.g. 280000" oninput="updateProgress()">
+          <span class="hint">Approximate is fine</span>
+        </div>
+        <div class="field">
+          <label>How is this verified?</label>
+          <select id="rev-src" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option value="tax">Tax returns</option>
+            <option value="pl">Business P&L</option>
+            <option value="card">Card processing records</option>
+            <option value="bank">Bank statements</option>
+            <option value="owner">My estimate</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Payment systems in use</label>
+          <div class="tag-row">
+            <span class="tag" onclick="this.classList.toggle('on');updateProgress()">Coin</span>
+            <span class="tag" onclick="this.classList.toggle('on');updateProgress()">Card readers</span>
+            <span class="tag" onclick="this.classList.toggle('on');updateProgress()">App / loyalty</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="sec-num">3</div>
+        <span class="card-title">Monthly expenses (approximate)</span>
+      </div>
+      <div class="grid3">
+        <div class="field">
+          <label>Monthly rent <span class="req">*</span></label>
+          <input type="number" id="monthly-rent" placeholder="e.g. 5500" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Water + electric (monthly)</label>
+          <input type="number" id="monthly-util" placeholder="e.g. 3200" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Labor / payroll (monthly)</label>
+          <input type="number" id="monthly-labor" placeholder="e.g. 2000" oninput="updateProgress()">
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="sec-num">4</div>
+        <span class="card-title">Lease</span>
+      </div>
+      <div class="grid3">
+        <div class="field">
+          <label>Years remaining on lease <span class="req">*</span></label>
+          <input type="number" id="lease-yrs" placeholder="e.g. 4" min="0" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Renewal options</label>
+          <select id="lease-opts" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option value="none">None</option>
+            <option value="1x3">1 × 3-year option</option>
+            <option value="1x5">1 × 5-year option</option>
+            <option value="2x5">2 × 5-year options</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Annual rent increases</label>
+          <select id="rent-esc" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option>Fixed (no increases)</option>
+            <option>% per year</option>
+            <option>CPI-linked</option>
+            <option>Step increases</option>
+            <option>Don't know</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="sec-num">5</div>
+        <span class="card-title">Equipment overview</span>
+      </div>
+      <div class="grid3">
+        <div class="field">
+          <label>Number of washers <span class="req">*</span></label>
+          <input type="number" id="num-washers" placeholder="e.g. 20" min="0" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Number of dryers <span class="req">*</span></label>
+          <input type="number" id="num-dryers" placeholder="e.g. 16" min="0" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Average machine age (years) <span class="req">*</span></label>
+          <input type="number" id="machine-age" placeholder="e.g. 7" min="0" oninput="updateProgress()">
+        </div>
+        <div class="field">
+          <label>Machines owned or financed?</label>
+          <select id="machine-own" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option value="owned">All owned outright</option>
+            <option value="mix">Mix of owned + financed</option>
+            <option value="leased">All leased / financed</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Last major equipment refresh</label>
+          <select id="last-refresh" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option value="lt3">Less than 3 years ago</option>
+            <option value="3to7">3–7 years ago</option>
+            <option value="7to12">7–12 years ago</option>
+            <option value="gt12">More than 12 years ago</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Overall condition</label>
+          <select id="equip-condition" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option>Excellent — all machines working</option>
+            <option>Good — minor issues only</option>
+            <option>Fair — some machines down regularly</option>
+            <option>Poor — needs significant work</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="card">
+      <div class="card-header">
+        <div class="sec-num">6</div>
+        <span class="card-title">Deal expectations</span>
+      </div>
+      <div class="grid3">
+        <div class="field">
+          <label>Asking price (if you have one in mind)</label>
+          <input type="number" id="asking-price" placeholder="e.g. 350000" oninput="updateProgress()">
+          <span class="hint">Leave blank if you don't have a number yet</span>
+        </div>
+        <div class="field">
+          <label>Open to seller financing?</label>
+          <select id="seller-fin" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option>Yes — willing to carry a note</option>
+            <option>Maybe — open to discussion</option>
+            <option>No — cash / SBA only</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Timeline to close</label>
+          <select id="timeline" onchange="updateProgress()">
+            <option value="">Select...</option>
+            <option>ASAP</option>
+            <option>3–6 months</option>
+            <option>Flexible / no rush</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Anything else you'd like us to know</label>
+          <textarea id="notes" placeholder="History of the business, what makes it special, any context that would help us understand the opportunity..." oninput="updateProgress()"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="submit-btn" onclick="submitForm()">Submit inquiry →</button>
+      <p class="submit-note">By submitting you confirm this information is accurate to the best of your knowledge.<br>We'll respond within 1–2 business days.</p>
+    </div>
+
+  </div>
+
+  <!-- CONFIRMATION -->
+  <div class="confirm-screen" id="confirm-screen">
+    <div class="confirm-icon">✓</div>
+    <div class="confirm-title">Thank you — we've received your inquiry</div>
+    <div class="confirm-sub">We'll review the information you've shared and be in touch within 1–2 business days. If your business looks like a good fit, we'll reach out to discuss next steps.</div>
+    <div class="confirm-detail" id="confirm-detail"></div>
+    <div class="confirm-contact">Questions? Email us at <a href="mailto:acquisitions@skylineventuresgroup.com">acquisitions@skylineventuresgroup.com</a></div>
+  </div>
+
+</div>
+
+<script>
+  const REQUIRED_FIELDS = ['owner-name','phone','email','address','annual-rev','monthly-rent','lease-yrs','num-washers','num-dryers','machine-age','years-op'];
+
+  function updateProgress() {
+    const filled = REQUIRED_FIELDS.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.value && el.value.trim() !== '';
+    }).length;
+    const pct = Math.round((filled / REQUIRED_FIELDS.length) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+  }
+
+  function gV(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function submitForm() {
+    // Validate required fields
+    let valid = true;
+    document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+    document.querySelectorAll('.error-msg').forEach(el => el.remove());
+
+    REQUIRED_FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el || !el.value.trim()) {
+        el.classList.add('error');
+        const msg = document.createElement('span');
+        msg.className = 'error-msg';
+        msg.textContent = 'This field is required';
+        el.parentNode.appendChild(msg);
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      const firstError = document.querySelector('.error');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Build confirmation summary
+    const biz = gV('biz-name') || gV('owner-name') + "'s Laundromat";
+    const detail = document.getElementById('confirm-detail');
+    detail.innerHTML = `
+      <div class="confirm-row"><span class="confirm-row-label">Business</span><span class="confirm-row-val">${biz}</span></div>
+      <div class="confirm-row"><span class="confirm-row-label">Contact</span><span class="confirm-row-val">${gV('owner-name')}</span></div>
+      <div class="confirm-row"><span class="confirm-row-label">Location</span><span class="confirm-row-val">${gV('address')}</span></div>
+      <div class="confirm-row"><span class="confirm-row-label">Annual revenue</span><span class="confirm-row-val">${gV('annual-rev') ? '$' + parseInt(gV('annual-rev')).toLocaleString() : '—'}</span></div>
+      <div class="confirm-row"><span class="confirm-row-label">Submitted</span><span class="confirm-row-val">${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</span></div>`;
+
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('confirm-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
