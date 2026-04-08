@@ -307,7 +307,7 @@ function renderList() {
     var ini = name.split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase();
     var st = p['Stage Status']||'Pending Review';
     var rev = p['Annual Revenue'] ? ('$'+Math.round(p['Annual Revenue']/1000)+'k') : '—';
-    var eb = (p['Annual Revenue']&&p['Monthly Rent']) ? Math.round(p['Annual Revenue']-(+(p['Monthly Rent']||0)++(p['Monthly Utilities']||0)++(p['Monthly Labor']||0))*12) : null;
+    var eb = (p['Annual Revenue']&&p['Monthly Rent']) ? Math.round(p['Annual Revenue']-(parseFloat(p['Monthly Rent']||0)+parseFloat(p['Monthly Utilities']||0)+parseFloat(p['Monthly Labor']||0))*12) : null;
     var mg = (eb!==null&&p['Annual Revenue']) ? Math.round((eb/p['Annual Revenue'])*100) : null;
     html += '<div class="prospect-card" onclick="openP(\'' + p.id + '\')">';
     html += '<div class="p-avatar">' + ini + '</div>';
